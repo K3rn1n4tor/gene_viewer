@@ -1,0 +1,116 @@
+[
+  {
+    "name": "OV_D1_Mean_Tumor_7p_Mean_Small",
+    "size": [
+      249,
+      249
+    ],
+    "rowtype": "gene",
+    "value": {
+      "range": [
+        -10.598,
+        6.227
+      ],
+      "type": "real"
+    },
+    "coltype": "patient",
+    "type": "matrix",
+    "path": "OV_D1_Mean_Tumor_7p_Mean_Small.csv",
+    "separator": ","
+  },
+  {
+    "name": "OV_D1_Mean_Tumor_7p_Max_Small",
+    "size": [
+      249,
+      249
+    ],
+    "rowtype": "gene",
+    "value": {
+      "range": [
+        -8.735,
+        7.773
+      ],
+      "type": "real"
+    },
+    "coltype": "patient",
+    "type": "matrix",
+    "path": "OV_D1_Mean_Tumor_7p_Max_Small.csv",
+    "separator": ","
+  },
+  {
+    "name": "OV_D1_Mean_Tumor_7p_Min_Small",
+    "size": [
+      249,
+      249
+    ],
+    "rowtype": "gene",
+    "value": {
+      "range": [
+        -13.031,
+        5.179
+      ],
+      "type": "real"
+    },
+    "coltype": "patient",
+    "type": "matrix",
+    "path": "OV_D1_Mean_Tumor_7p_Min_Small.csv",
+    "separator": ","
+  },
+  {
+    "name": "OV_D1_Mean_Normal_7p_Mean_Small",
+    "size": [
+      249,
+      249
+    ],
+    "rowtype": "gene",
+    "value": {
+      "range": [
+        -6.511,
+        5.957
+      ],
+      "type": "real"
+    },
+    "coltype": "patient",
+    "type": "matrix",
+    "path": "OV_D1_Mean_Normal_7p_Mean_Small.csv",
+    "separator": ","
+  },
+  {
+    "name": "OV_D1_Mean_Normal_7p_Max_Small",
+    "size": [
+      249,
+      249
+    ],
+    "rowtype": "gene",
+    "value": {
+      "range": [
+        -5.871,
+        12.038
+      ],
+      "type": "real"
+    },
+    "coltype": "patient",
+    "type": "matrix",
+    "path": "OV_D1_Mean_Normal_7p_Max_Small.csv",
+    "separator": ","
+  },
+  {
+    "name": "OV_D1_Mean_Normal_7p_Min_Small",
+    "size": [
+      249,
+      249
+    ],
+    "rowtype": "gene",
+    "value": {
+      "range": [
+        -10.722,
+        4.956
+      ],
+      "type": "real"
+    },
+    "coltype": "patient",
+    "type": "matrix",
+    "path": "OV_D1_Mean_Normal_7p_Min_Small.csv",
+    "separator": ","
+  }
+]
