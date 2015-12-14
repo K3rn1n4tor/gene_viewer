@@ -6,8 +6,8 @@ var test2 = 0;
 //define the main module having 4 dependencies: d3 (external library), caleydo main, caleydo data, and a header template for a common styling
 define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../caleydo_d3/databrowser', '../caleydo_vis/axis',
   '../caleydo_vis/box', '../caleydo_vis/distribution', '../caleydo_vis/barplot', '../caleydo_vis/heatmap',
-  '../caleydo_core/multiform' , '../caleydo_window/main',  '../wrapper_bootstrap_fontawesome/header'],
-  function ($, d3, C, data, browser, axis, box, dist, bars, heatmap, multiform, window, header) {
+  '../caleydo_core/multiform' , '../caleydo_window/main', '../gene_vis/linechart',  '../wrapper_bootstrap_fontawesome/header'],
+  function ($, d3, C, data, browser, axis, box, dist, bars, heatmap, multiform, window, linechart, header) {
   'use strict';
 
   var appHeader = header.create(document.body,
@@ -23,7 +23,7 @@ define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../cale
   function renderGenomicData(gene)
   {
     // extract slice
-    var rowData = gene.slice(20,21);
+    var rowData = gene.slice(120,121);
     // compute new range
     rowData.data().then( function(arr)
     {
@@ -56,9 +56,17 @@ define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../cale
       // create a new multiform
       // displays a window with title and all plugins that are able to display the data
       //var multiP = Promise.resolve(multiform.create(gene, win.node, { initialVis : 2 }));
-      heatmap.create(gene, win.node, { scale: [0.1,0.1] });
+      //heatmap.create(gene, win.node, { scale: [0.1,0.1] });
       //dist.create(rowData, win.node, { scale: [2,4] });
-      win.title = 'Histogram';
+      //win.title = 'Histogram';
+      var lineC = linechart.create(rowData, win.node);
+      win.title = 'First Line Chart'
+      $('.slices').on('change', function() {
+        console.log(this.value);
+        var rowData = gene.slice(this.value, this.value + 1);
+        lineC.updateGraph(rowData); });
+
+
 
       //multiP.then(function(multi)
       //{
