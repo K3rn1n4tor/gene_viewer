@@ -6,8 +6,8 @@ var test2 = 0;
 //define the main module having 4 dependencies: d3 (external library), caleydo main, caleydo data, and a header template for a common styling
 define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../caleydo_d3/databrowser', '../caleydo_vis/axis',
   '../caleydo_vis/box', '../caleydo_vis/distribution', '../caleydo_vis/barplot', '../caleydo_vis/heatmap',
-  '../caleydo_core/multiform' , '../caleydo_window/main', '../gene_vis/linechart',  '../wrapper_bootstrap_fontawesome/header'],
-  function ($, d3, C, data, browser, axis, box, dist, bars, heatmap, multiform, window, linechart, header) {
+  '../caleydo_core/multiform' , '../caleydo_window/main', '../gene_vis/linechart', '../gene_vis/boxchart', '../wrapper_bootstrap_fontawesome/header'],
+  function ($, d3, C, data, browser, axis, box, dist, bars, heatmap, multiform, window, linechart, boxchart, header) {
   'use strict';
 
   var appHeader = header.create(document.body,
@@ -49,8 +49,8 @@ define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../cale
           animatedHeader: false,
           zcontrols: false,
           zoomAble: true,
-          resizeable: true,
-          draggable: true
+          resizeable: false,
+          draggable: false
         });
 
       // create a new multiform
@@ -59,12 +59,20 @@ define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../cale
       //heatmap.create(gene, win.node, { scale: [0.1,0.1] });
       //dist.create(rowData, win.node, { scale: [2,4] });
       //win.title = 'Histogram';
-      var lineC = linechart.create(rowData, win.node);
-      win.title = 'First Line Chart'
+
+      //var lineC = linechart.create(rowData, win.node);
+      //win.title = 'First Line Chart';
+      //$('.slices').on('change', function() {
+      //  //console.log(this.value);
+      //  var rowData = gene.slice(this.value, this.value + 1);
+      //  lineC.updateGraph(rowData); });
+
+      var boxC = boxchart.create(rowData, win.node);
+      win.title = 'First Box Chart';
       $('.slices').on('change', function() {
-        console.log(this.value);
+        //console.log(this.value);
         var rowData = gene.slice(this.value, this.value + 1);
-        lineC.updateGraph(rowData); });
+        boxC.updateGraph(rowData); });
 
 
 
@@ -72,15 +80,14 @@ define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../cale
       //{
       //  console.log('multiform creation completed');
       //  // add icon viewer to choose which vis plugin should be used
-      //  //multiform.addIconVisChooser(win.toolbar.node, multi);
+      //  multiform.addIconVisChooser(win.toolbar.node, multi);
       //  // attach multiform to window
-      //  //win.attachVis(multi, multi.asMetaData);
+      //  win.attachVis(multi, multi.asMetaData);
       //  // set position if pos is not valid
-      //  //win.pos = pos ? [ pos.x, pos.y ] : [400, 50];
+      //  win.pos = [400, 50];
       //  // make window movable
-      //  //var vis = window.adapter(multi);
+      //  var vis = win.adapter(multi);
       //  // this is important, otherwise title will not be displayed and window is not movable
-      //
       //
       //  var entry =
       //  {
