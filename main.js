@@ -6,8 +6,9 @@ var test2 = 0;
 //define the main module having 4 dependencies: d3 (external library), caleydo main, caleydo data, and a header template for a common styling
 define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../caleydo_d3/databrowser', '../caleydo_vis/axis',
   '../caleydo_vis/box', '../caleydo_vis/distribution', '../caleydo_vis/barplot', '../caleydo_vis/heatmap',
-  '../caleydo_core/multiform' , '../caleydo_window/main', '../gene_vis/linechart', '../gene_vis/boxchart', '../wrapper_bootstrap_fontawesome/header'],
-  function ($, d3, C, data, browser, axis, box, dist, bars, heatmap, multiform, window, linechart, boxchart, header) {
+  '../caleydo_core/multiform', '../caleydo_window/main', '../gene_vis/linechart', '../gene_vis/boxchart',
+  '../gene_vis/boxplot', '../wrapper_bootstrap_fontawesome/header'],
+  function ($, d3, C, data, browser, axis, box, dist, bars, heatmap, multiform, window, linechart, boxchart, boxplot, header) {
   'use strict';
 
   var appHeader = header.create(document.body,
@@ -67,12 +68,19 @@ define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../cale
       //  var rowData = gene.slice(this.value, this.value + 1);
       //  lineC.updateGraph(rowData); });
 
-      var boxC = boxchart.create(rowData, win.node);
-      win.title = 'First Box Chart';
-      $('.slices').on('change', function() {
-        //console.log(this.value);
-        var rowData = gene.slice(this.value, this.value + 1);
-        boxC.updateGraph(rowData); });
+      //var boxC = boxchart.create(rowData, win.node);
+      //win.title = 'First Box Chart';
+      //$('.slices').on('change', function() {
+      //  //console.log(this.value);
+      //  var rowData = gene.slice(this.value, this.value + 1);
+      //  boxC.updateGraph(rowData); });
+
+      var boxP = boxplot.create(rowData, win.node);
+      win.title = 'First Box Plot';
+      //$('.slices').on('change', function() {
+      //  //console.log(this.value);
+      //  var rowData = gene.slice(this.value, this.value + 1);
+      //  boxC.updateGraph(rowData); });
 
 
 
