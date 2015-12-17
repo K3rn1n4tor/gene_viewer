@@ -4,11 +4,12 @@
 var test = 0;
 var test2 = 0;
 //define the main module having 4 dependencies: d3 (external library), caleydo main, caleydo data, and a header template for a common styling
-define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../caleydo_d3/databrowser', '../caleydo_vis/axis',
-  '../caleydo_vis/box', '../caleydo_vis/distribution', '../caleydo_vis/barplot', '../caleydo_vis/heatmap',
-  '../caleydo_core/multiform', '../caleydo_window/main', '../gene_vis/linechart', '../gene_vis/boxchart',
-  '../gene_vis/boxplot', '../wrapper_bootstrap_fontawesome/header'],
-  function ($, d3, C, data, browser, axis, box, dist, bars, heatmap, multiform, window, linechart, boxchart, boxplot, header) {
+define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../caleydo_core/data',
+  '../caleydo_d3/databrowser', '../caleydo_vis/axis', '../caleydo_vis/box', '../caleydo_vis/distribution',
+  '../caleydo_vis/barplot', '../caleydo_vis/heatmap', '../caleydo_core/multiform', '../caleydo_window/main',
+  '../gene_vis/linechart', '../gene_vis/boxchart', '../gene_vis/boxplot',
+  '../caleydo_core/plugin', '../wrapper_bootstrap_fontawesome/header'],
+  function ($, d3, ajax, C, data, browser, axis, box, dist, bars, heatmap, multiform, window, linechart, boxchart, boxplot, plugin, header) {
   'use strict';
 
   var appHeader = header.create(document.body,
@@ -23,6 +24,8 @@ define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../cale
 
   function renderGenomicData(gene)
   {
+    console.log(gene);
+
     // extract slice
     var rowData = gene.slice(120,121);
     // compute new range
@@ -106,6 +109,13 @@ define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../cale
       //  return entry;
       //});
 
+
+      var query = {};
+      //console.log(path);
+      var test = ajax.getAPIJSON('/gene_processor/test/' + gene.desc.id, query);
+      test.then(function (d) {  console.log(d.data); });
+
+
       console.log('finished.');
     });
 
@@ -115,7 +125,9 @@ define(['jquery', 'd3', '../caleydo_core/main', '../caleydo_core/data', '../cale
 
   // get one specific data
   data.getFirstByName('OV_D1_Mean_Tumor_7p_Mean_Small').then(
-    function(d) { renderGenomicData(d); });
+    function(d) {
+      renderGenomicData(d);
+    });
 
 
   // list all available datasets
