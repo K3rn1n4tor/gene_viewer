@@ -112,5 +112,24 @@
     "type": "matrix",
     "path": "OV_D1_Mean_Normal_7p_Min_Small.csv",
     "separator": ","
+  },
+  {
+    "name": "testData",
+    "size": [
+      7,
+      3
+    ],
+    "rowtype": "gene",
+    "value": {
+      "range": [
+        1,
+        16
+      ],
+      "type": "real"
+    },
+    "coltype": "condition",
+    "type": "matrix",
+    "path": "testData.csv",
+    "separator": ","
   }
 ]

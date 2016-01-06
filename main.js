@@ -1,15 +1,15 @@
 /**
  *
  */
-var test = 0;
-var test2 = 0;
+var debug = 0;
+var debug2 = 0;
 //define the main module having 4 dependencies: d3 (external library), caleydo main, caleydo data, and a header template for a common styling
 define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../caleydo_core/data',
   '../caleydo_d3/databrowser', '../caleydo_vis/axis', '../caleydo_vis/box', '../caleydo_vis/distribution',
   '../caleydo_vis/barplot', '../caleydo_vis/heatmap', '../caleydo_core/multiform', '../caleydo_window/main',
-  '../gene_vis/linechart', '../gene_vis/boxchart', '../gene_vis/boxplot',
+  '../gene_vis/linechart', '../gene_vis/boxchart', '../gene_vis/boxplot', '../caleydo_core/matrix_impl',
   '../caleydo_core/plugin', '../wrapper_bootstrap_fontawesome/header'],
-  function ($, d3, ajax, C, data, browser, axis, box, dist, bars, heatmap, multiform, window, linechart, boxchart, boxplot, plugin, header) {
+  function ($, d3, ajax, C, data, browser, axis, box, dist, bars, heatmap, multiform, window, linechart, boxchart, boxplot, matrix, plugin, header) {
   'use strict';
 
   var appHeader = header.create(document.body,
@@ -20,25 +20,29 @@ define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../cale
   var base = document.getElementById('plots');
   var axisDiv = document.getElementById('axis');
 
-  test2 = data;
+  debug2 = data;
 
   function renderGenomicData(gene)
   {
     console.log(gene);
+    debug = gene;
 
-    // extract slice
-    var rowData = gene.slice(120,121);
-    // compute new range
+    // extract column slice
+    //var colData = gene.slice(121);
+    // for row data --> take transposed matrix and use slice function
+    var rowData = gene.t.slice(1);
     rowData.data().then( function(arr)
     {
+      //debug2 = arr;
+      console.log(arr);
       rowData.desc.value.range = d3.extent(arr);
-      test = arr;
 
       console.log('create plots');
       //box.create(rowData, base);
       //dist.create(rowData, base, { scale: [2,3] });
       //bars.create(rowData,  base, { width: 1000, heighti: 200 });
-      //heatmap.create(gene, base);
+
+
       //axis.create(rowData, axisDiv, {r: 0, scale: [8,0.08], shift: 20, orient: 'bottom'});
       // for
 
@@ -57,6 +61,11 @@ define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../cale
           draggable: false
         });
 
+      //var test = [[1,2,3],[3,4,5]];
+      //
+      //var mat = matrix.constructor()
+      //heatmap.create(test, win.node);
+
       // create a new multiform
       // displays a window with title and all plugins that are able to display the data
       //var multiP = Promise.resolve(multiform.create(gene, win.node, { initialVis : 2 }));
@@ -71,19 +80,19 @@ define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../cale
       //  var rowData = gene.slice(this.value, this.value + 1);
       //  lineC.updateGraph(rowData); });
 
-      //var boxC = boxchart.create(rowData, win.node);
-      //win.title = 'First Box Chart';
-      //$('.slices').on('change', function() {
-      //  //console.log(this.value);
-      //  var rowData = gene.slice(this.value, this.value + 1);
-      //  boxC.updateGraph(rowData); });
+      var boxC = boxchart.create(rowData, win.node);
+      win.title = 'First Box Chart';
+      $('.slices').on('change', function() {
+        //console.log(this.value);
+        var rowData = gene.t.slice(this.value, this.value + 1);
+        boxC.updateGraph(rowData); });
 
-      var boxP = boxplot.create(rowData, win.node);
-      win.title = 'First Box Plot';
+      //var boxP = boxplot.create(rowData, win.node);
+      //win.title = 'First Box Plot';
       //$('.slices').on('change', function() {
       //  //console.log(this.value);
-      //  var rowData = gene.slice(this.value, this.value + 1);
-      //  boxC.updateGraph(rowData); });
+      //  var rowData = gene.t.slice(this.value, this.value + 1);
+      //  boxP.updateGraph(rowData); });
 
 
 
@@ -108,26 +117,25 @@ define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../cale
       //
       //  return entry;
       //});
-
-
-      var query = {};
-      //console.log(path);
-      console.log('try to invoke clustering')
-      var test = ajax.getAPIJSON('/gene_clustering/kmeans/3/' + gene.desc.id, query);
-      test.then(function (d) { console.log(d); });
-
-      var test2 = ajax.getAPIJSON('/gene_clustering/hierarchical/single/' + gene.desc.id, query);
-      test2.then(function (d) { console.log(d); });
-
-      console.log('finished.');
     });
 
-    test2 = rowData;
+
+    //var query = {};
+    ////console.log(path);
+    //console.log('try to invoke clustering')
+    //var test = ajax.getAPIJSON('/gene_clustering/kmeans/3/' + gene.desc.id, query);
+    //test.then(function (d) { console.log(d); });
+    //
+    //var test2 = ajax.getAPIJSON('/gene_clustering/hierarchical/complete/' + gene.desc.id, query);
+    //test2.then(function (d) { console.log(d); });
+
+    console.log('finished.');
+    //test2 = rowData;
 
   }
 
   // get one specific data
-  data.getFirstByName('testData').then(//'OV_D1_Mean_Tumor_7p_Mean_Small').then(
+  data.getFirstByName('OV_D1_Mean_Tumor_7p_Mean_Small').then(
     function(d) {
       renderGenomicData(d);
     });
