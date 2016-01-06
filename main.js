@@ -112,9 +112,12 @@ define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../cale
 
       var query = {};
       //console.log(path);
-      var test = ajax.getAPIJSON('/gene_processor/test/' + gene.desc.id, query);
-      test.then(function (d) {  console.log(d.data); });
+      console.log('try to invoke clustering')
+      var test = ajax.getAPIJSON('/gene_clustering/kmeans/3/' + gene.desc.id, query);
+      test.then(function (d) { console.log(d); });
 
+      var test2 = ajax.getAPIJSON('/gene_clustering/hierarchical/single/' + gene.desc.id, query);
+      test2.then(function (d) { console.log(d); });
 
       console.log('finished.');
     });
@@ -124,7 +127,7 @@ define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../cale
   }
 
   // get one specific data
-  data.getFirstByName('OV_D1_Mean_Tumor_7p_Mean_Small').then(
+  data.getFirstByName('testData').then(//'OV_D1_Mean_Tumor_7p_Mean_Small').then(
     function(d) {
       renderGenomicData(d);
     });
