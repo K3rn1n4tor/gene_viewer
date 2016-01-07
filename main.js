@@ -3,13 +3,15 @@
  */
 var debug = 0;
 var debug2 = 0;
+
+var rangeModule = 0;
 //define the main module having 4 dependencies: d3 (external library), caleydo main, caleydo data, and a header template for a common styling
 define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../caleydo_core/data',
   '../caleydo_d3/databrowser', '../caleydo_vis/axis', '../caleydo_vis/box', '../caleydo_vis/distribution',
   '../caleydo_vis/barplot', '../caleydo_vis/heatmap', '../caleydo_core/multiform', '../caleydo_window/main',
-  '../gene_vis/linechart', '../gene_vis/boxchart', '../gene_vis/boxplot', '../caleydo_core/matrix_impl',
+  '../gene_vis/linechart', '../gene_vis/boxchart', '../gene_vis/boxplot', '../caleydo_core/range',
   '../caleydo_core/plugin', '../wrapper_bootstrap_fontawesome/header'],
-  function ($, d3, ajax, C, data, browser, axis, box, dist, bars, heatmap, multiform, window, linechart, boxchart, boxplot, matrix, plugin, header) {
+  function ($, d3, ajax, C, data, browser, axis, box, dist, bars, heatmap, multiform, window, linechart, boxchart, boxplot, range, plugin, header) {
   'use strict';
 
   var appHeader = header.create(document.body,
@@ -22,6 +24,8 @@ define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../cale
 
   debug2 = data;
 
+  rangeModule = range;
+
   function renderGenomicData(gene)
   {
     console.log(gene);
@@ -30,7 +34,7 @@ define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../cale
     // extract column slice
     //var colData = gene.slice(121);
     // for row data --> take transposed matrix and use slice function
-    var rowData = gene.t.slice(1);
+    var rowData = gene.t.slice(0);
     rowData.data().then( function(arr)
     {
       //debug2 = arr;
@@ -48,18 +52,22 @@ define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../cale
 
       // first look for all the divs and the one with id main, then append
       // a new division to it with css attribute position
-      var windows = $('<div>').css('position', 'absolute').appendTo('#main')[0];
+      var winBoxChart = $('<div>').css('position', 'relative').appendTo('.boxChart')[0];
 
       // create a new visualization window
-      var win = window.createVisWindow(windows,
+      var winBox = window.createVisWindow(winBoxChart,
         {
-          closeable: false,
-          animatedHeader: false,
-          zcontrols: false,
-          zoomAble: true,
-          resizeable: false,
-          draggable: false
+          closeable: false, animatedHeader: false, zcontrols: false,
+          zoomAble: true, resizeable: false, draggable: false
         });
+
+      var winBoxPlot = $('<div>').css('position', 'relative').appendTo('.boxPlot')[0];
+      var winBoxP = window.createVisWindow(winBoxPlot,
+        {
+          closeable: false, animatedHeader: false, zcontrols: false,
+          zoomAble: true, resizeable: false, draggable: false
+        });
+
 
       //var test = [[1,2,3],[3,4,5]];
       //
@@ -80,19 +88,25 @@ define(['jquery', 'd3', '../caleydo_core/ajax', '../caleydo_core/main', '../cale
       //  var rowData = gene.slice(this.value, this.value + 1);
       //  lineC.updateGraph(rowData); });
 
-      var boxC = boxchart.create(rowData, win.node);
-      win.title = 'First Box Chart';
+      var boxC = boxchart.create(rowData, winBox.node);
+      winBox.title = 'First Box Chart';
       $('.slices').on('change', function() {
         //console.log(this.value);
         var rowData = gene.t.slice(this.value, this.value + 1);
         boxC.updateGraph(rowData); });
 
-      //var boxP = boxplot.create(rowData, win.node);
-      //win.title = 'First Box Plot';
-      //$('.slices').on('change', function() {
-      //  //console.log(this.value);
-      //  var rowData = gene.t.slice(this.value, this.value + 1);
-      //  boxP.updateGraph(rowData); });
+      var boxP = boxplot.create(rowData, winBoxP.node);
+      winBoxP.title = 'First Box Plot';
+      $('.slices').on('change', function() {
+        //console.log(this.value);
+        var rowData = gene.t.slice(this.value, this.value + 1);
+        boxP.updateGraph(rowData); });
+
+      $('.slices').on('change', function() {
+        var newValue = this.value;
+        $('.sliderText').text('Slice: ' + String(newValue));
+      });
+
 
 
 
